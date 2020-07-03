@@ -2,7 +2,6 @@ package com.example.githubusernew.config
 
 import android.net.Uri
 import android.provider.BaseColumns
-import java.net.URI
 
 object DatabaseContract {
     //definisikan COntent URI

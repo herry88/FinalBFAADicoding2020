@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.ID
 import com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.TABLE_NAME
 import java.sql.SQLException
@@ -15,7 +14,7 @@ class UserFavHelper(context: Context) {
         private lateinit var databaseHelper : DatabaseHelper
         private val INSTANCE: UserFavHelper? = null
             fun getInstance(context: Context) : UserFavHelper = INSTANCE ?: synchronized(this) {
-                TODO()
+//                TODO()
                 INSTANCE ?: UserFavHelper(context)
             }
         private lateinit var database: SQLiteDatabase

@@ -26,14 +26,15 @@ class DatabaseHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, 
                "${DatabaseContract.UserFavoriteColumns.FAVORITE}INTEGER NOT NULL)"
    }
 
+
     override fun onCreate(db: SQLiteDatabase) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
         Log.d("SQLite Database","$DATABASE_NAME create")
         db.execSQL(SQL_CREATE_TABLE_USER_FAVORITE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
