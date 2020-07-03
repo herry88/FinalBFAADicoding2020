@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sizeZero">0dp</dimen>
+    <dimen name="sizeEight">8dp</dimen>
+    <dimen name="fourtySP">40sp</dimen>
+    <dimen name="sizeFifty">50dp</dimen>
+    <dimen name="sizeSixteen">16dp</dimen>
+    <dimen name="sizeTen">10dp</dimen>
+    <dimen name="sizeOnH2">192dp</dimen>
+    <dimen name="sizeOneHundred">100dp</dimen>
+    <dimen name="sizeTwelve">12dp</dimen>
+</resources>
