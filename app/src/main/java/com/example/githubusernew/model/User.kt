@@ -6,5 +6,4 @@ class User {
     val avatarUrl: String? = null
     val type: String? = null
     var favorite: Int = 0
-
 }

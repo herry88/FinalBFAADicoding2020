@@ -4,7 +4,7 @@ import android.net.Uri
 import android.provider.BaseColumns
 
 object DatabaseContract {
-    //definisikan COntent URI
+
     const val AUTHORITY  = "com.example.githubusernew"
     const val SCHEME = "content"
 

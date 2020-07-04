@@ -9,5 +9,10 @@ class UserPref(context: Context) {
     }
 
     private val preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    //coming soon
+
+    fun setDailyReminder(state: Boolean){
+        val editor = preferences.edit()
+        editor.putBoolean(DAILY_REMINDER, state)
+        editor.apply()
+    }
 }

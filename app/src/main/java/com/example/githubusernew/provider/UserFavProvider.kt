@@ -40,7 +40,7 @@ class UserFavProvider :ContentProvider() {
         string1: Array<out String>?,
         s1: String?
     ): Cursor? {
-        TODO("Not yet implemented")
+
         return when(sUriMatcher.match(uri)){
             USER_FAVORITE -> userFavHelper.QueryAll()
             else -> null
@@ -48,7 +48,7 @@ class UserFavProvider :ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        TODO("Not yet implemented")
+
         userFavHelper = UserFavHelper.getInstance(context as Context)
         userFavHelper.open()
         return true
@@ -60,12 +60,12 @@ class UserFavProvider :ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?
     ): Int {
-        TODO("Not yet implemented")
+
         return 0
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("Not yet implemented")
+
         val deleted : Int = when(USER_FAVORITE_ID){
             sUriMatcher.match(uri) -> userFavHelper.deleteById(uri.lastPathSegment.toString())
             else -> 0
@@ -75,7 +75,7 @@ class UserFavProvider :ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-        TODO("Not yet implemented")
+
         return null
     }
 
