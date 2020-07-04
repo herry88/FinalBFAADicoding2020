@@ -8,6 +8,7 @@
     android:paddingHorizontal="@dimen/sizeEight"
     android:orientation="horizontal">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imguser"
         android:layout_width="@dimen/sizeFifty"
@@ -28,5 +29,32 @@
         app:layout_constraintTop_toTopOf="@+id/imguser"
         tools:text="@string/dummyusername"
         />
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sizeTwelve"
+        app:layout_constraintBottom_toBottomOf="@id/imguser"
+        app:layout_constraintStart_toStartOf="@+id/tv_username"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
+        tools:text="@string/dummyType"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnFavorite"
+        android:layout_width="@dimen/sizeFifty"
+        android:layout_height="@dimen/sizeFifty"
+        android:layout_marginEnd="@dimen/sizeSixteen"
+        android:background="@android:color/white"
+        android:contentDescription="@string/buttonFavorite"
+        app:layout_constraintBottom_toBottomOf="@+id/imguser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imguser"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sizeOne"
+        android:layout_below = "@id/imguser"
+        android:layout_marginTop="@dimen/sizeEight"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/imguser"
+        tools:layout_editor_absoluteX ="@dimen/sizeEight"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

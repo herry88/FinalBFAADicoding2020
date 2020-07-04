@@ -3,4 +3,6 @@
     <string name="github_user">Github User Herry</string>
     <string name="search">Search</string>
     <string name="dummyusername">Herry Prasetyo</string>
+    <string name="dummyType">User</string>
+    <string name="buttonFavorite">FavoriteUser</string>
 </resources>

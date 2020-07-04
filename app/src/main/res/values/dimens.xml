@@ -9,4 +9,5 @@
     <dimen name="sizeOnH2">192dp</dimen>
     <dimen name="sizeOneHundred">100dp</dimen>
     <dimen name="sizeTwelve">12dp</dimen>
+    <dimen name="sizeOne">1dp</dimen>
 </resources>
