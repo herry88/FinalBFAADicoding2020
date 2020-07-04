@@ -48,12 +48,18 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
                     btnFavorite.setImageResource(iconFavorite)
                 }
                 itemView.setOnClickListener{onItemClickCallback?.onItemClicked(user)}
-                    btnFavorite.setOnClickListener{onItemClickCallback?.onBtnFavoriteClicked(itemView, user)}
+                btnFavorite.setOnClickListener{onItemClickCallback?.onBtnFavoriteClicked(itemView, user)}
 
             }
         }
 
     }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: User)
+        fun onBtnFavoriteClicked(view: View, data: User)
+    }
+
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): UserViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.useritems, viewGroup, false)
@@ -65,9 +71,4 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     override fun onBindViewHolder(userViewHolder: UserViewHolder, position: Int) {
         userViewHolder.bind(data[position])
     }
-}
-
-interface OnItemClickCallback {
-    fun onItemClicked(user: User)
-    fun onBtnFavoriteClicked(view: View, data: User)
 }
