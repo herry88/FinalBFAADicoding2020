@@ -10,4 +10,5 @@
     <dimen name="sizeOneHundred">100dp</dimen>
     <dimen name="sizeTwelve">12dp</dimen>
     <dimen name="sizeOne">1dp</dimen>
+    <dimen name="sizeFour">4dp</dimen>
 </resources>

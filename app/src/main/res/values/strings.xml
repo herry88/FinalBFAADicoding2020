@@ -7,4 +7,7 @@
     <string name="buttonFavorite">FavoriteUser</string>
     <string name="saveToFavorite">SuccessToSave</string>
     <string name="removeUser">RemoveFromFavorite</string>
+    <string name="otherinfo">%1$s . %2$s . %3$s</string>
+    <string name="tabFollower">Follower</string>
+    <string name="tabFollowing">Following</string>
 </resources>
