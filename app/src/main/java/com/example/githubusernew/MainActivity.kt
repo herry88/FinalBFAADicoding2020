@@ -1,7 +1,6 @@
 package com.example.githubusernew
 
 import android.content.ContentValues
-import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubusernew.activity.DetailActivity
 import com.example.githubusernew.adapter.UserAdapter
 import com.example.githubusernew.config.DatabaseContract
 import com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
             override fun onItemClicked(data: User) {
-                selectedUser(data)
+//                selectedUser(data)
             }
 
             //btn favorite click
@@ -151,13 +149,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     //intent ke DetailActivity
-    private fun selectedUser(userItems: User){
-        val username = userItems.login
-
-        val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
-        intentToDetailActivity.putExtra(DetailActivity)
-        startActivity(intentToDetailActivity)
-    }
+//    private fun selectedUser(userItems: User){
+//        val username = userItems.login
+//
+//        val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
+//        intentToDetailActivity.putExtra(DetailActivity)
+//        startActivity(intentToDetailActivity)
+//    }
 
     //progress indicator logic
     private fun showLoading(state: Boolean){

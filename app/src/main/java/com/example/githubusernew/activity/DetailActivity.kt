@@ -40,7 +40,7 @@ class DetailActivity: AppCompatActivity() {
     }
 
     private fun setupTabs(username: String?){
-        val sectionPagerAdapter = SectionPagerAdapter(this, username, supportFragmentManager)
+        val sectionPagerAdapter = SectionPageAdapter(this, username, supportFragmentManager)
         view_pager.adapter = sectionPagerAdapter
         tabs_layout.setupWithViewPager(view_pager)
     }
