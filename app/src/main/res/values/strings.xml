@@ -8,8 +8,6 @@
     <string name="saveToFavorite">SuccessToSave</string>
     <string name="removeUser">RemoveFromFavorite</string>
     <string name="otherinfo">%1$s . %2$s . %3$s</string>
-    <string name="tabFollower">Follower</string>
-    <string name="tabFollowing">Following</string>
     <string name="tab_follower">Follower</string>
     <string name="tab_following">Following</string>
     <string name="no_data">This Moment Not Found Favorite!!!</string>

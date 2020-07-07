@@ -16,7 +16,7 @@ class SectionPageAdapter(private val context: Context, passDataFromDetailActivit
     @StringRes
     private val tabTitles = intArrayOf(R.string.tab_follower, R.string.tab_following)
 
-    private val passDataUsername = passDataFromDetailActivity //data dari DetailActivity
+    private val passDataUsername = passDataFromDetailActivity
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment? = null
