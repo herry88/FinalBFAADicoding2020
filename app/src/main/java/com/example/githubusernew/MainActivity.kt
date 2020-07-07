@@ -1,6 +1,7 @@
 package com.example.githubusernew
 
 import android.content.ContentValues
+import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubusernew.activity.DetailActivity
 import com.example.githubusernew.adapter.UserAdapter
 import com.example.githubusernew.config.DatabaseContract
 import com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
@@ -46,23 +48,28 @@ class MainActivity : AppCompatActivity() {
         rvView.layoutManager = LinearLayoutManager(this)
         rvView.adapter = adapter
 
+        //Membuat thread baru untuk melihat perubahan (observe) supaya tidak mengganggu kinerja thread utama.
         val handlerThread = HandlerThread("DataObserve")
         handlerThread.start()
         val handler =android.os.Handler(handlerThread.looper)
+
+        //membuat sebuah fungsi yang menjadi turunan ContentObserver supaya bisa melakukan fungsi observe.
         val myObserver = object : ContentObserver(handler){
             override fun onChange(selfChange: Boolean) {
                 loadUserFavorites(userItems)
             }
         }
         contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
+
             override fun onItemClicked(data: User) {
-//                selectedUser(data)
+                selectedUser(data)
             }
 
             //btn favorite click
             override fun onBtnFavoriteClicked(view: View, data: User) {
-                var iconFavorite = R.drawable.like_color
+                var iconFavorite = R.drawable.ic_favorite
                 if(data.favorite == 0){
                     //data dimasukkan ke db
                     insertToDb(view, data.id, data.login, data.avatarUrl, data.type)
@@ -74,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     deleteUserById(view, data.id.toString())
                     Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.removeUser)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 0
-                    iconFavorite = R.drawable.like_white
+                    iconFavorite = R.drawable.ic_favorite_border
                 }
                 view.btnFavorite.setImageResource(iconFavorite)
             }
@@ -82,10 +89,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel(){
-        //menghubungkan class UsersViewModel dengan MainActivity / View
         userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(SearchViewModel::class.java)
 
-        //mencari user berdasarkan inputan username pada custom_search_view
         btn_search_user.setOnClickListener {
             val username = edit_text_user.text.toString()
             if (username.isEmpty()) return@setOnClickListener
@@ -104,7 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     private var userFavoriteGlobal = ArrayList<Favorite>()
     private fun loadUserFavorites(userItems: ArrayList<User>) {
-        //menggunakan coroutine
         GlobalScope.launch (Dispatchers.Main){
             val deferredItemsFavorite = async(Dispatchers.IO) {
 
@@ -112,9 +116,8 @@ class MainActivity : AppCompatActivity() {
                 MappingHelper.mapCursorToArrayList(cursor)
             }
 
-            val userFavorites = deferredItemsFavorite.await() //data user favorite dr db
-
-            adapter.setData(userItems, userFavorites) //Set data dari APi dan db ke adapter untuk di olah.
+            val userFavorites = deferredItemsFavorite.await()
+            adapter.setData(userItems, userFavorites)
             userFavoriteGlobal = userFavorites
         }
     }
@@ -134,28 +137,24 @@ class MainActivity : AppCompatActivity() {
         values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
         values.put(DatabaseContract.UserFavoriteColumns.FAVORITE, 1)
 
-        //insert with contentResolver (Provider)
         view.context.contentResolver.insert(CONTENT_URI, values)
     }
 
-    //delete data in db by id
     private fun deleteUserById (view: View, id: String){
-        //mwnghapus dengan id
         uriWithId = Uri.parse("$CONTENT_URI/$id")
 
-        //delete with contentResolver (Provider)
         view.context.contentResolver.delete(uriWithId, null, null)
 
     }
 
     //intent ke DetailActivity
-//    private fun selectedUser(userItems: User){
-//        val username = userItems.login
-//
-//        val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
-//        intentToDetailActivity.putExtra(DetailActivity)
-//        startActivity(intentToDetailActivity)
-//    }
+    private fun selectedUser(userItems: User){
+        val username = userItems.login
+
+        val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
+        intentToDetailActivity.putExtra(DetailActivity.EXTRA_USERNAME, username)// data username dikirim
+        startActivity(intentToDetailActivity)
+    }
 
     //progress indicator logic
     private fun showLoading(state: Boolean){
@@ -166,29 +165,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.main_menu, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.menu_favorite ->{
-//                val intent = Intent(this, FavoriteActivity::class.java)
-//                startActivity(intent)
-//                return true
-//            }
-//            R.id.action_change_setting ->{
-//                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-//                startActivity(intent)
-//            }
-//            R.id.action_reminder_setting ->{
-//                val intent = Intent(this, SettingActivity::class.java)
-//                startActivity(intent)
-//            }
-//            else -> return  true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 }

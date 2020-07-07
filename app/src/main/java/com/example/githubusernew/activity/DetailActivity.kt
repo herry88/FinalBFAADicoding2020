@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubusernew.R
+import com.example.githubusernew.adapter.SectionPageAdapter
 import com.example.githubusernew.model.Detail
 import com.example.githubusernew.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -40,8 +41,8 @@ class DetailActivity: AppCompatActivity() {
     }
 
     private fun setupTabs(username: String?){
-        val sectionPagerAdapter = SectionPageAdapter(this, username, supportFragmentManager)
-        view_pager.adapter = sectionPagerAdapter
+        val sectionPageAdapter = SectionPageAdapter(this, username, supportFragmentManager)
+        view_pager.adapter = sectionPageAdapter
         tabs_layout.setupWithViewPager(view_pager)
     }
 
@@ -53,7 +54,7 @@ class DetailActivity: AppCompatActivity() {
         detailViewModel.getDetail().observe(this, Observer { dataDetail ->
             if (dataDetail != null){
                 bind(dataDetail)
-                showLoading(false) //loading finish
+                showLoading(false)
             }
         })
     }

@@ -11,22 +11,26 @@ import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 import java.lang.Exception
 
-class SearchViewModel: ViewModel() {
+/*
+    Author : Herry Prasetyo
+ */
+
+class SearchViewModel : ViewModel(){
     val listUsers = MutableLiveData<ArrayList<User>>()
 
-    //Fungsi Set viewModel user
     fun setUsers(username: String) {
         val listItems = ArrayList<User>()
         val apiUrl = "https://api.github.com/search/users?q=$username"
         val tokenValue = "0e9f2530036a4d1b335ae12dfa925651fb71e031"
 
-        //Request api
         val client = AsyncHttpClient()
         client.addHeader("Authorization", "token $tokenValue")
         client.addHeader("User-Agent", "request")
         client.get(apiUrl, object : AsyncHttpResponseHandler(){
-            //ketika request berhasil
-            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
+            override fun onSuccess(statusCode: Int,
+                                   headers: Array<Header>,
+                                   responseBody: ByteArray
+            ) {
                 try {
                     //parsing JSON-nya
                     val result = String(responseBody)
@@ -42,15 +46,16 @@ class SearchViewModel: ViewModel() {
                         userItems.type = user.getString("type")
                         listItems.add(userItems)
                     }
-                    //post nilai ke mutableLiveData variabel
                     listUsers.postValue(listItems)
                 }catch (e: Exception){
                     Log.d("Exception", e.message.toString())
                 }
             }
 
-            //ketika request gagal
-            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseBody: ByteArray?, error: Throwable?) {
+            override fun onFailure(statusCode: Int,
+                                   headers: Array<Header>?,
+                                   responseBody: ByteArray?,
+                                   error: Throwable?) {
                 Log.d("onFailure", error?.message.toString())
             }
         })
@@ -60,4 +65,5 @@ class SearchViewModel: ViewModel() {
     fun getUsers(): LiveData<ArrayList<User>>{
         return listUsers
     }
+
 }

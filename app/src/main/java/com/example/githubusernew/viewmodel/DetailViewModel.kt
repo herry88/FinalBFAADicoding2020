@@ -22,8 +22,10 @@ class DetailViewModel: ViewModel() {
         client.addHeader("Authorization", "token $tokenValue")
         client.addHeader("User-Agent", "request")
         client.get(apiUrl, object : AsyncHttpResponseHandler(){
-            //ketika berhasil
-            override fun onSuccess(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray) {
+            override fun onSuccess(statusCode: Int,
+                                   headers: Array<out Header>,
+                                   responseBody: ByteArray
+            ) {
                 try {
                     val result = String(responseBody)
                     val responseObject = JSONObject(result)
@@ -40,15 +42,16 @@ class DetailViewModel: ViewModel() {
                     Log.d("Exception", e.message.toString())
                 }
             }
-
-            //ketika gagal
-            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?, error: Throwable?) {
+            override fun onFailure(statusCode: Int,
+                                   headers: Array<out Header>?,
+                                   responseBody: ByteArray?,
+                                   error: Throwable?) {
                 Log.d("Exception", error?.message.toString())
             }
         })
     }
 
-    fun getDetail(): LiveData<Detail> {
+    fun getDetail(): LiveData<Detail>{
         return dataDetail
     }
 }

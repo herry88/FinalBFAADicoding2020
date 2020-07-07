@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.example.githubusernew.adapter
 
 import android.view.LayoutInflater
@@ -13,14 +15,14 @@ import kotlinx.android.synthetic.main.useritems.view.*
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private val data = ArrayList<User>()
-    private var onItemClickCallback : OnItemClickCallback? = null
+    private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
         this.onItemClickCallback = onItemClickCallback
     }
-
     fun setData(items: ArrayList<User>, itemsFavorite: ArrayList<Favorite>){
         data.clear()
+
         for (i in 0 until items.size){
             val j = 0
             if(j >= itemsFavorite.size)break
@@ -30,36 +32,10 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
                 }
             }
         }
+
+        data.addAll(items)
+        notifyDataSetChanged()
     }
-
-    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(user : User){
-            with(itemView){
-                Glide.with(itemView.context).load(user.avatarUrl).apply(RequestOptions()
-                    .override(55, 55)).into(imguser)
-                    tv_username.text = user.login
-                    tvType.text = user.type
-
-                if (user.favorite == 1){
-                   val iconFavorite = R.drawable.like_color
-                    btnFavorite.setImageResource(iconFavorite)
-                } else{
-                    val iconFavorite = R.drawable.like_white
-                    btnFavorite.setImageResource(iconFavorite)
-                }
-                itemView.setOnClickListener{onItemClickCallback?.onItemClicked(user)}
-                btnFavorite.setOnClickListener{onItemClickCallback?.onBtnFavoriteClicked(itemView, user)}
-
-            }
-        }
-
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: User)
-        fun onBtnFavoriteClicked(view: View, data: User)
-    }
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): UserViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.useritems, viewGroup, false)
@@ -70,5 +46,31 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onBindViewHolder(userViewHolder: UserViewHolder, position: Int) {
         userViewHolder.bind(data[position])
+    }
+
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(users: User){
+            with(itemView){
+                Glide.with(itemView.context).load(users.avatarUrl).apply(RequestOptions().override(55,55)).into(imguser)
+                tv_username.text = users.login
+                tvType.text = users.type
+                if(users.favorite == 1) {
+                    val iconFavorite = R.drawable.ic_favorite
+                    btnFavorite.setImageResource(iconFavorite)
+                }else{
+                    val iconFavorite = R.drawable.ic_favorite_border
+                    btnFavorite.setImageResource(iconFavorite)
+                }
+                itemView.setOnClickListener{onItemClickCallback?.onItemClicked(users)}
+
+                btnFavorite.setOnClickListener { onItemClickCallback?.onBtnFavoriteClicked(itemView, users) }
+            }
+        }
+    }
+
+    //interface untuk on item click callback
+    interface OnItemClickCallback {
+        fun onItemClicked(data: User)
+        fun onBtnFavoriteClicked(view: View, data: User)
     }
 }

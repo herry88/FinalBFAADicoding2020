@@ -12,4 +12,5 @@
     <string name="tabFollowing">Following</string>
     <string name="tab_follower">Follower</string>
     <string name="tab_following">Following</string>
+    <string name="no_data">This Moment Not Found Favorite!!!</string>
 </resources>

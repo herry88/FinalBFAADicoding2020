@@ -19,27 +19,27 @@ class FollowerAdapter: RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder>(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): FollowerViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FollowerViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.follower_items, viewGroup, false)
         return FollowerViewHolder(view)
     }
 
     override fun getItemCount(): Int = data.size
 
+
     override fun onBindViewHolder(followerViewHolder: FollowerViewHolder, position: Int) {
-       followerViewHolder.bind(data[position])
+        followerViewHolder.bind(data[position])
     }
 
-    inner class FollowerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class FollowerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(follower: Follower){
             with(itemView){
-                Glide.with(itemView.context).load(follower.avatarUrl).apply(RequestOptions().override(55, 55)).into(imgAvatarFollower)
+                Glide.with(itemView.context).load(follower.avatarUrl).apply(RequestOptions().override(55,55)).into(imgAvatarFollower)
                 tv_username_follower.text = follower.login
                 tvTypeFollower.text = follower.type
+
             }
+
         }
     }
 }

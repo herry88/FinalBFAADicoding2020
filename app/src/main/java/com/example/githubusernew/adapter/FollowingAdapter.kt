@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.following_items.view.*
 
 /*
     author : Herry Prasetyo
-    reference : Dicoding(NO COPAS)
+    reference : Dicoding
  */
 
 class FollowingAdapter: RecyclerView.Adapter<FollowingAdapter.FollowingViewHolder>() {
@@ -24,11 +24,7 @@ class FollowingAdapter: RecyclerView.Adapter<FollowingAdapter.FollowingViewHolde
         notifyDataSetChanged()
     }
 
-
-    override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): FollowingViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FollowingViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.following_items, viewGroup, false)
         return FollowingViewHolder(view)
     }
@@ -39,11 +35,10 @@ class FollowingAdapter: RecyclerView.Adapter<FollowingAdapter.FollowingViewHolde
         followingViewHolder.bind(listFollowing[position])
     }
 
-
-    inner class FollowingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class FollowingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(following: Following){
             with(itemView){
-                Glide.with(itemView.context).load(following.avatarUrl).apply(RequestOptions().override(55, 55)).into(imgAvatarFollowing)
+                Glide.with(itemView.context).load(following.avatarUrl).apply(RequestOptions().override(55,55)).into(imgAvatarFollowing)
                 tv_username.text = following.login
                 tvType.text = following.type
             }

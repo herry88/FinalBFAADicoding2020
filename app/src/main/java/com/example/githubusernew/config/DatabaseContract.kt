@@ -18,8 +18,8 @@ object DatabaseContract {
             const val FAVORITE = "favorite"
 
             val CONTENT_URI : Uri = Uri.Builder().scheme(SCHEME)
-                .authority(com.example.githubusernew.config.DatabaseContract.AUTHORITY)
-                .appendPath(com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.TABLE_NAME)
+                .authority(AUTHORITY)
+                .appendPath(TABLE_NAME)
                 .build()
         }
     }
