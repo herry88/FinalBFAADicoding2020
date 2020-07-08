@@ -29,15 +29,21 @@ class UserFavProvider :ContentProvider() {
         sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_FAVORITE_ID )
     }
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Not yet implemented")
+    override fun insert(uri: Uri,
+                        contentValues: ContentValues?): Uri? {
+        val added: Long = when(USER_FAVORITE){
+            sUriMatcher.match(uri) -> userFavHelper.insert(contentValues)
+            else -> 0
+        }
+        context?.contentResolver?.notifyChange(CONTENT_URI, null)
+        return Uri.parse("$CONTENT_URI/$added")
     }
 
     override fun query(
         uri: Uri,
         projection: Array<String>?,
         s: String?,
-        string1: Array<out String>?,
+        string1: Array<String>?,
         s1: String?
     ): Cursor? {
 

@@ -14,7 +14,7 @@ class UserFavHelper(context: Context) {
         private lateinit var databaseHelper : DatabaseHelper
         private val INSTANCE: UserFavHelper? = null
             fun getInstance(context: Context) : UserFavHelper = INSTANCE ?: synchronized(this) {
-//                TODO()
+
                 INSTANCE ?: UserFavHelper(context)
             }
         private lateinit var database: SQLiteDatabase

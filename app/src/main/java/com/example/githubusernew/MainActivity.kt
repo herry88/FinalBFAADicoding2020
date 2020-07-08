@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity() {
         val handlerThread = HandlerThread("DataObserve")
         handlerThread.start()
         val handler =android.os.Handler(handlerThread.looper)
-
-        //membuat sebuah fungsi yang menjadi turunan ContentObserver supaya bisa melakukan fungsi observe.
+        //fungsi observer
         val myObserver = object : ContentObserver(handler){
             override fun onChange(selfChange: Boolean) {
                 loadUserFavorites(userItems)
@@ -147,12 +146,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //intent ke DetailActivity
+    //DetailActivity
     private fun selectedUser(userItems: User){
         val username = userItems.login
 
         val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
-        intentToDetailActivity.putExtra(DetailActivity.EXTRA_USERNAME, username)// data username dikirim
+        intentToDetailActivity.putExtra(DetailActivity.EXTRA_USERNAME, username)
         startActivity(intentToDetailActivity)
     }
 
