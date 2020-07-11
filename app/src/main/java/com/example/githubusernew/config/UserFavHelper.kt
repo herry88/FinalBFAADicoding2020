@@ -11,26 +11,26 @@ import java.sql.SQLException
 class UserFavHelper(context: Context) {
     companion object{
         private const val DATABASE_TABLE = TABLE_NAME
-        private lateinit var databaseHelper : DatabaseHelper
-        private val INSTANCE: UserFavHelper? = null
-            fun getInstance(context: Context) : UserFavHelper = INSTANCE ?: synchronized(this) {
+        private lateinit var dataBaseHelper : DatabaseHelper
+        private val INSTANCE: UserFavHelper? =null
+        fun getInstance(context: Context): UserFavHelper = INSTANCE ?: synchronized(this){
+            INSTANCE ?: UserFavHelper(context)
+        }
 
-                INSTANCE ?: UserFavHelper(context)
-            }
         private lateinit var database: SQLiteDatabase
     }
 
-    init {
-        databaseHelper = DatabaseHelper(context)
+    init{
+        dataBaseHelper = DatabaseHelper(context)
     }
 
     @Throws(SQLException::class)
-    fun  open(){
-        database = databaseHelper.writableDatabase
+    fun open(){
+        database = dataBaseHelper.writableDatabase
     }
 
-    //get Data
-    fun QueryAll(): Cursor {
+    //mengambil data
+    fun queryAll(): Cursor{
         return database.query(
             DATABASE_TABLE,
             null,
@@ -42,10 +42,12 @@ class UserFavHelper(context: Context) {
         )
     }
 
-    fun insert(values: ContentValues?):Long{
-        return database.insert(DATABASE_TABLE,null, values)
+    //menyimpan data
+    fun insert(values: ContentValues?): Long{
+        return database.insert(DATABASE_TABLE, null, values)
     }
 
+    //menghapus data
     fun deleteById(id: String): Int{
         return database.delete(DATABASE_TABLE, "$ID = '$id'", null)
     }

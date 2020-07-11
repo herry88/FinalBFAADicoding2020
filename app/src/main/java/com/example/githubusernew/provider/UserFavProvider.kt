@@ -17,72 +17,63 @@ import com.example.githubusernew.config.UserFavHelper
  */
 class UserFavProvider :ContentProvider() {
     companion object{
+
         private const val USER_FAVORITE = 1
         private const val USER_FAVORITE_ID = 2
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-        private lateinit var userFavHelper: UserFavHelper
+        private lateinit var userFavoriteHelper: UserFavHelper
     }
+
 
     init {
         sUriMatcher.addURI(AUTHORITY, TABLE_NAME, USER_FAVORITE)
 
-        sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_FAVORITE_ID )
+        sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_FAVORITE_ID)
     }
 
-    override fun insert(uri: Uri,
-                        contentValues: ContentValues?): Uri? {
-        val added: Long = when(USER_FAVORITE){
-            sUriMatcher.match(uri) -> userFavHelper.insert(contentValues)
-            else -> 0
-        }
-        context?.contentResolver?.notifyChange(CONTENT_URI, null)
-        return Uri.parse("$CONTENT_URI/$added")
+    override fun onCreate(): Boolean {
+        userFavoriteHelper = UserFavHelper.getInstance(context as Context)
+        userFavoriteHelper.open()
+        return true
     }
 
-    override fun query(
-        uri: Uri,
-        projection: Array<String>?,
-        s: String?,
-        string1: Array<String>?,
-        s1: String?
-    ): Cursor? {
-
+    //mambaca semua data
+    override fun query(uri: Uri, strings: Array<String>?, s: String?, string1: Array<String>?, s1: String?): Cursor? {
         return when(sUriMatcher.match(uri)){
-            USER_FAVORITE -> userFavHelper.QueryAll()
+            USER_FAVORITE -> userFavoriteHelper.queryAll()
             else -> null
         }
     }
 
-    override fun onCreate(): Boolean {
-
-        userFavHelper = UserFavHelper.getInstance(context as Context)
-        userFavHelper.open()
-        return true
+    override fun getType(uri: Uri): String? {
+        return null
     }
 
-    override fun update(
-        uri: Uri,
-        values: ContentValues?,
-        selection: String?,
-        selectionArgs: Array<out String>?
-    ): Int {
+    //memasukkan data
+    override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
+        val added: Long = when (USER_FAVORITE){
+            sUriMatcher.match(uri) -> userFavoriteHelper.insert(contentValues)
+            else ->0
+        }
+        context?.contentResolver?.notifyChange(CONTENT_URI, null)
 
+        return Uri.parse("$CONTENT_URI/$added")
+    }
+
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
         return 0
     }
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
 
-        val deleted : Int = when(USER_FAVORITE_ID){
-            sUriMatcher.match(uri) -> userFavHelper.deleteById(uri.lastPathSegment.toString())
+    override fun delete(uri: Uri, s: String?, strings: Array<String>?): Int {
+        val deleted: Int = when(USER_FAVORITE_ID){
+            sUriMatcher.match(uri) -> userFavoriteHelper.deleteById(uri.lastPathSegment.toString())
             else -> 0
         }
+
         context?.contentResolver?.notifyChange(CONTENT_URI, null)
+
         return deleted
-    }
-
-    override fun getType(uri: Uri): String? {
-
-        return null
     }
 
 }

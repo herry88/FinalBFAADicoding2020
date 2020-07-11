@@ -6,6 +6,8 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
 import android.os.HandlerThread
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubusernew.activity.DetailActivity
+import com.example.githubusernew.activity.FavActivity
+import com.example.githubusernew.activity.SettingActivity
 import com.example.githubusernew.adapter.UserAdapter
 import com.example.githubusernew.config.DatabaseContract
 import com.example.githubusernew.config.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
@@ -48,20 +52,22 @@ class MainActivity : AppCompatActivity() {
         rvView.layoutManager = LinearLayoutManager(this)
         rvView.adapter = adapter
 
-        //Membuat thread baru untuk melihat perubahan (observe) supaya tidak mengganggu kinerja thread utama.
         val handlerThread = HandlerThread("DataObserve")
         handlerThread.start()
         val handler =android.os.Handler(handlerThread.looper)
-        //fungsi observer
+
         val myObserver = object : ContentObserver(handler){
             override fun onChange(selfChange: Boolean) {
                 loadUserFavorites(userItems)
             }
         }
+        //Setelah observer dibuat, kita daftarkan dengan menggunakan registerContentObserver.
         contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
+        //Menanggapi click dr user pada satu item di recyclerView
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
 
+            //itemView click
             override fun onItemClicked(data: User) {
                 selectedUser(data)
             }
@@ -92,14 +98,17 @@ class MainActivity : AppCompatActivity() {
 
         btn_search_user.setOnClickListener {
             val username = edit_text_user.text.toString()
-            if (username.isEmpty()) return@setOnClickListener
+            if (username.isEmpty()) return@setOnClickListener //kondisi ya
 
             showLoading(true)
             userViewModel.setUsers(username)
         }
+        //mendapatkan hasil pencarian user
         userViewModel.getUsers().observe(this, Observer { userItems ->
             if (userItems != null){
+                //mengisi dengan list terbaru
                 this.userItems = userItems
+                //implementasi fungsi loadUser
                 loadUserFavorites(userItems)
                 showLoading(false)
             }
@@ -107,16 +116,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var userFavoriteGlobal = ArrayList<Favorite>()
+    //load data user favorite dr db
     private fun loadUserFavorites(userItems: ArrayList<User>) {
+        //menggunakan coroutine
         GlobalScope.launch (Dispatchers.Main){
             val deferredItemsFavorite = async(Dispatchers.IO) {
 
+                //load data dengan contentResolver (Provider)
                 val cursor = this@MainActivity.contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
 
-            val userFavorites = deferredItemsFavorite.await()
-            adapter.setData(userItems, userFavorites)
+            val userFavorites = deferredItemsFavorite.await() //data user favorite dr db
+
+            adapter.setData(userItems, userFavorites) //Set data dari APi dan db ke adapter untuk di olah.
             userFavoriteGlobal = userFavorites
         }
     }
@@ -132,10 +145,11 @@ class MainActivity : AppCompatActivity() {
         val values = ContentValues()
         values.put(DatabaseContract.UserFavoriteColumns.ID, id)
         values.put(DatabaseContract.UserFavoriteColumns.LOGIN, login)
-        values.put(DatabaseContract.UserFavoriteColumns.AVATARA_URL, avatarUrl)
+        values.put(DatabaseContract.UserFavoriteColumns.AVATAR_URL, avatarUrl)
         values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
         values.put(DatabaseContract.UserFavoriteColumns.FAVORITE, 1)
 
+        //insert with contentResolver (Provider)
         view.context.contentResolver.insert(CONTENT_URI, values)
     }
 
@@ -146,12 +160,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //DetailActivity
     private fun selectedUser(userItems: User){
         val username = userItems.login
 
         val intentToDetailActivity = Intent(this@MainActivity, DetailActivity::class.java)
-        intentToDetailActivity.putExtra(DetailActivity.EXTRA_USERNAME, username)
+        intentToDetailActivity.putExtra(DetailActivity.EXTRA_USERNAME, username)// data username dikirim
         startActivity(intentToDetailActivity)
     }
 
@@ -164,4 +177,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.mainmenu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    @Suppress("UNREACHABLE_CODE")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.favoriteUser ->{
+                val intent = Intent(this, FavActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_reminder_setting->{
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            else -> return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

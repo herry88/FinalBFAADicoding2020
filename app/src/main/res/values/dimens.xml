@@ -11,4 +11,5 @@
     <dimen name="sizeTwelve">12dp</dimen>
     <dimen name="sizeOne">1dp</dimen>
     <dimen name="sizeFour">4dp</dimen>
+    <dimen name="sizeThirdtySix">36dp</dimen>
 </resources>

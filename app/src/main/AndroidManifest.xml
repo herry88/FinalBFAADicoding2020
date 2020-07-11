@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.DetailActivity" />
         <activity android:name=".activity.FavActivity"/>
         <activity android:name=".MainActivity">
@@ -25,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".util.dailyReminder.DailyReminder"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="TODO"
+            tools:ignore ="ExportedReceiver"/>
         <provider
             android:authorities="com.example.githubusernew"
             android:name=".provider.UserFavProvider"

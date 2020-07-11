@@ -11,7 +11,7 @@ object MappingHelper {
              while (moveToNext()){
                  val id = getInt(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.ID))
                  val login = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.LOGIN))
-                 val avatarUrl = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.AVATARA_URL))
+                 val avatarUrl = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.AVATAR_URL))
                  val type = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.TYPE))
                  val favorite = getInt(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.FAVORITE))
 

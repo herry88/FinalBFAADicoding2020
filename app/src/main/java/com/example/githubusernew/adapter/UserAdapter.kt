@@ -20,6 +20,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
         this.onItemClickCallback = onItemClickCallback
     }
+
     fun setData(items: ArrayList<User>, itemsFavorite: ArrayList<Favorite>){
         data.clear()
 
@@ -54,15 +55,22 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
                 Glide.with(itemView.context).load(users.avatarUrl).apply(RequestOptions().override(55,55)).into(imguser)
                 tv_username.text = users.login
                 tvType.text = users.type
+
+
                 if(users.favorite == 1) {
                     val iconFavorite = R.drawable.ic_favorite
+//                    Glide.with(itemView.context).load(iconFavorite)
+//                        .apply(RequestOptions().override(55, 55)).into(btn_favorite)
                     btnFavorite.setImageResource(iconFavorite)
                 }else{
                     val iconFavorite = R.drawable.ic_favorite_border
+
                     btnFavorite.setImageResource(iconFavorite)
                 }
+                //implementasi ketika itemView di click
                 itemView.setOnClickListener{onItemClickCallback?.onItemClicked(users)}
 
+                //implementasi ketika btn fav di click
                 btnFavorite.setOnClickListener { onItemClickCallback?.onBtnFavoriteClicked(itemView, users) }
             }
         }
@@ -71,6 +79,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     //interface untuk on item click callback
     interface OnItemClickCallback {
         fun onItemClicked(data: User)
+        //add btn_fav itemClicked
         fun onBtnFavoriteClicked(view: View, data: User)
     }
 }
