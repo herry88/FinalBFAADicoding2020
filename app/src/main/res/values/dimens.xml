@@ -12,4 +12,9 @@
     <dimen name="sizeOne">1dp</dimen>
     <dimen name="sizeFour">4dp</dimen>
     <dimen name="sizeThirdtySix">36dp</dimen>
+    <dimen name="sizeNineTySix">96dp</dimen>
+    <dimen name="sizeTwenty">20dp</dimen>
+    <dimen name="sizeThirdty">30dp</dimen>
+    <dimen name="sizeFifteen">15dp</dimen>
+    <dimen name="sizeTwentyNine">29dp</dimen>
 </resources>

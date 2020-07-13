@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GiseryApp</string>
+    <string name="listFavorite">Favorite User:</string>
+    <string name="no_users_found">Tidak Ada User</string>
+    <string name="dummyusername">Herry Prasetyo</string>
+    <string name="buttonFavorite">Favorite</string>
+    <string name="deleteFavorite">Delete User</string>
 </resources>

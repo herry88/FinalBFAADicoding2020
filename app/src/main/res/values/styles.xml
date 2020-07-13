@@ -10,4 +10,10 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="backgroundTint">@color/colorPrimaryDark</item>
     </style>
+
+    <!--    ini untuk splashscreen-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
