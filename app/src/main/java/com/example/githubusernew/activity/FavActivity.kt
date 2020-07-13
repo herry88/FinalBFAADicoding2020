@@ -71,8 +71,6 @@ class FavActivity : AppCompatActivity() {
                 }
             }
         })
-
-
     }
 
     private fun deleteUserById(view: View, id: String) {

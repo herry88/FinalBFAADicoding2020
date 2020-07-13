@@ -52,7 +52,6 @@ class FavAdapter : RecyclerView.Adapter<FavAdapter.FavoriteViewHolder>() {
                     btn_favorite.setImageResource(iconFavorite)
                 }
 
-                //implementasi itemView click
                 itemView.setOnClickListener { onItemClickCallback?.onItemClicked(favorite) }
 
                 //implementasi tbn fav click

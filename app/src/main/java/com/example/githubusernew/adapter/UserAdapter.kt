@@ -59,27 +59,22 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
                 if(users.favorite == 1) {
                     val iconFavorite = R.drawable.ic_favorite
-//                    Glide.with(itemView.context).load(iconFavorite)
-//                        .apply(RequestOptions().override(55, 55)).into(btn_favorite)
+
                     btnFavorite.setImageResource(iconFavorite)
                 }else{
                     val iconFavorite = R.drawable.ic_favorite_border
 
                     btnFavorite.setImageResource(iconFavorite)
                 }
-                //implementasi ketika itemView di click
                 itemView.setOnClickListener{onItemClickCallback?.onItemClicked(users)}
 
-                //implementasi ketika btn fav di click
                 btnFavorite.setOnClickListener { onItemClickCallback?.onBtnFavoriteClicked(itemView, users) }
             }
         }
     }
 
-    //interface untuk on item click callback
     interface OnItemClickCallback {
         fun onItemClicked(data: User)
-        //add btn_fav itemClicked
         fun onBtnFavoriteClicked(view: View, data: User)
     }
 }

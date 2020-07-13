@@ -9,6 +9,11 @@ import com.example.githubusernew.userPreference.UserPref
 import com.example.githubusernew.util.dailyReminder.DailyReminder
 import kotlinx.android.synthetic.main.activity_setting.*
 
+/*
+    author : Herry Prasetyo
+    Summary : Dicoding
+ */
+
 class SettingActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var userPreferences: UserPref
     private lateinit var dailyReminder: DailyReminder

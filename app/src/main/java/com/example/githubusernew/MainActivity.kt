@@ -61,10 +61,9 @@ class MainActivity : AppCompatActivity() {
                 loadUserFavorites(userItems)
             }
         }
-        //Setelah observer dibuat, kita daftarkan dengan menggunakan registerContentObserver.
+        //registerObserver
         contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
-        //Menanggapi click dr user pada satu item di recyclerView
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
 
             //itemView click
@@ -76,13 +75,10 @@ class MainActivity : AppCompatActivity() {
             override fun onBtnFavoriteClicked(view: View, data: User) {
                 var iconFavorite = R.drawable.ic_favorite
                 if(data.favorite == 0){
-                    //data dimasukkan ke db
                     insertToDb(view, data.id, data.login, data.avatarUrl, data.type)
                     Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.saveToFavorite)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 1
-
                 }else{
-                    //data dihapus dr db
                     deleteUserById(view, data.id.toString())
                     Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.removeUser)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 0
@@ -91,6 +87,17 @@ class MainActivity : AppCompatActivity() {
                 view.btnFavorite.setImageResource(iconFavorite)
             }
         })
+    }
+
+    private fun insertToDb(view: View, id: Int, login: String?, avatarUrl: String?, type: String?) {
+        val values = ContentValues()
+        values.put(DatabaseContract.UserFavoriteColumns.ID,id)
+        values.put(DatabaseContract.UserFavoriteColumns.LOGIN, login)
+        values.put(DatabaseContract.UserFavoriteColumns.AVATAR_URL, avatarUrl)
+        values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
+        values.put(DatabaseContract.UserFavoriteColumns.FAVORITE, 1)
+
+        view.context.contentResolver.insert(CONTENT_URI, values)
     }
 
     private fun setupViewModel(){
@@ -116,13 +123,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var userFavoriteGlobal = ArrayList<Favorite>()
-    //load data user favorite dr db
     private fun loadUserFavorites(userItems: ArrayList<User>) {
-        //menggunakan coroutine
         GlobalScope.launch (Dispatchers.Main){
             val deferredItemsFavorite = async(Dispatchers.IO) {
-
-                //load data dengan contentResolver (Provider)
                 val cursor = this@MainActivity.contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
@@ -134,24 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //db insert data user favorite
-    private fun insertToDb(
-        view: View,
-        id: Int,
-        login: String?,
-        avatarUrl: String?,
-        type: String?
-    ){
-        val values = ContentValues()
-        values.put(DatabaseContract.UserFavoriteColumns.ID, id)
-        values.put(DatabaseContract.UserFavoriteColumns.LOGIN, login)
-        values.put(DatabaseContract.UserFavoriteColumns.AVATAR_URL, avatarUrl)
-        values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
-        values.put(DatabaseContract.UserFavoriteColumns.FAVORITE, 1)
 
-        //insert with contentResolver (Provider)
-        view.context.contentResolver.insert(CONTENT_URI, values)
-    }
 
     private fun deleteUserById (view: View, id: String){
         uriWithId = Uri.parse("$CONTENT_URI/$id")
