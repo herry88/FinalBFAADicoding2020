@@ -19,4 +19,7 @@
 * Alarm Manager
 
 ## Achievement
-![bfaa]
+![bfaa](https://raw.githubusercontent.com/herry88/FinalBFAADicoding2020/master/bfaa.png)
+
+## Contact
+* [herry081288@gmail.com](mailto:herry081288@gmail.com)
